@@ -38,6 +38,7 @@ module mainfsm (
 	localparam [3:0] EXECUTER = 6;
 	localparam [3:0] MEMADR = 2;
 	localparam [3:0] UNKNOWN = 10;
+    //localparam [3:0] ALUWB = 8;
 
 	// state register
 	always @(posedge clk or posedge reset)
@@ -66,10 +67,19 @@ module mainfsm (
 					2'b10: nextstate = BRANCH;
 					default: nextstate = UNKNOWN;
 				endcase
-			EXECUTER:
-			EXECUTEI:
+			EXECUTER: nextstate = ALUWB;
+			EXECUTEI: nextstate = ALUWB;
 			MEMADR:
-			MEMRD:
+                if (Funct[5])
+                    nextstate = MEMRD;
+                else
+                    nextstate = MEMWR;
+                default: nextstate = UNKNOWN;
+			MEMRD: nextstate = MEMWB;
+            MEMWB: nextstate = FECTH;
+            MEMWR: nextstate = FETCH;
+            ALUWB: nextstate = FETCH;
+            BRANCH: nextstate = FETCH;
 			default: nextstate = FETCH;
 		endcase
 
@@ -82,7 +92,7 @@ module mainfsm (
 		case (state)
 			FETCH: controls = 13'b1000101001100;
 			DECODE: controls = 13'b0000001001100;
-			EXECUTER: 
+			EXECUTER: controls = 13'
 			EXECUTEI: 
 			ALUWB: 
 			MEMADR: 
