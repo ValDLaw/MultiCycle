@@ -69,57 +69,7 @@
 //    1101  Signed less/equal             N != V | Z = 1
 //    1110  Always                        any
 //   Writes to register 15 (PC) are ignored 
-module top (
-	clk,
-	reset,
-	WriteData,
-	Adr,
-	MemWrite
-);
-	input wire clk;
-	input wire reset;
-	output wire [31:0] WriteData;
-	output wire [31:0] Adr;
-	output wire MemWrite;
-	wire [31:0] PC;
-	wire [31:0] Instr;
-	wire [31:0] ReadData;
-	// instantiate processor and shared memory
-	arm arm(
-		.clk(clk),
-		.reset(reset),
-		.MemWrite(MemWrite),
-		.Adr(Adr),
-		.WriteData(WriteData),
-		.ReadData(ReadData)
-	);
-	mem mem(
-		.clk(clk),
-		.we(MemWrite),
-		.a(Adr),
-		.wd(WriteData),
-		.rd(ReadData)
-	);
-endmodule
-module mem (
-	clk,
-	we,
-	a,
-	wd,
-	rd
-);
-	input wire clk;
-	input wire we;
-	input wire [31:0] a;
-	input wire [31:0] wd;
-	output wire [31:0] rd;
-	reg [31:0] RAM [63:0];
-	initial $readmemh("memfile.dat", RAM);
-	assign rd = RAM[a[31:2]]; // word aligned
-	always @(posedge clk)
-		if (we)
-			RAM[a[31:2]] <= wd;
-endmodule
+
 
 module arm (
 	clk,
