@@ -61,9 +61,24 @@ module decode (
 	// Add code for the ALU Decoder and PC Logic.
 	// Remember, you may reuse code from previous labs.
 	// ALU Decoder
-
+	always @(*)
+	if (ALUOp) begin
+		case (Funct[4:1])
+			4'b0100: ALUControl = 2'b00; //add
+			4'b0010: ALUControl = 2'b01; //sub
+			4'b0000: ALUControl = 2'b10; //and
+			4'b1100: ALUControl = 2'b11; //or
+			default: ALUControl = 2'bxx;
+		endcase
+		FlagW[1] = Funct[0];
+		FlagW[0] = Funct[0] & ((ALUControl == 2'b00) | (ALUControl == 2'b01));
+	end
+	else begin
+		ALUControl = 2'b00;
+		FlagW = 2'b00;
+	end
 	// PC Logic
-
+	assign PCS = ((Rd == 4'b1111) & RegW) | Branch;
 
 	// Add code for the Instruction Decoder (Instr Decoder) below.
 	// Recall that the input to Instr Decoder is Op, and the outputs are
@@ -71,4 +86,5 @@ module decode (
 
 	// Instr Decoder
 	assign ImmSrc = Op;
+	assign RegSrc = Funct[5];
 endmodule
