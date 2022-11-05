@@ -63,17 +63,31 @@ module datapath (
 	// (Address Mux), etc. so that your code is easier to understand.
 
 	// ADD CODE HERE
-	flopr #(32) pcreg(
+	flopenr #(32) pcreg(
 		.clk(clk),
 		.reset(reset),
+		.en(PCWrite),
 		.d(PCNext),
 		.q(PC)
 	);
-	flopr #(32) pcreg(
+	mux2 #(32) pcmux(
+		.d0(PC),
+		.d1(Result),
+		.s(AdrSrc),
+		.y(Adr)
+	);
+	flopenr #(32) clkinstr(
 		.clk(clk),
 		.reset(reset),
-		.d(PCNext),
-		.q(PC)
+		.en(IRWrite),
+		.d(Rd),
+		.q(Instr)
+	);
+	flopr #(32) clkdata(
+		.clk(clk),
+		.reset(reset),
+		.d(ReadData),
+		.q(Data)
 	);
 	mux2 #(4) ra1mux(
 		.d0(Instr[19:16]),
@@ -98,21 +112,35 @@ module datapath (
 		.rd1(SrcA),
 		.rd2(WriteData)
 	);
-	mux2 #(32) resmux(
-		.d0(ALUResult),
-		.d1(ReadData),
-		.s(MemtoReg),
-		.y(Result)
-	);
 	extend ext(
 		.Instr(Instr[23:0]),
 		.ImmSrc(ImmSrc),
 		.ExtImm(ExtImm)
 	);
-	mux2 #(32) srcbmux(
+	flopr #(32) clka(
+		.clk(clk),
+		.reset(reset),
+		.d(RD1),
+		.q(A)
+	);
+	flopr #(32) clkwd(
+		.clk(clk),
+		.reset(reset),
+		.d(RD2),
+		.q(WriteData)
+	);
+	mux3 #(32) scrAmux3(
+		.d0(A),
+		.d1(PC),
+		.d2(ALUOut),
+		.s(ALUSrcA),
+		.y(SrcA)
+	);
+	mux3 #(32) scrBmux3(
 		.d0(WriteData),
 		.d1(ExtImm),
-		.s(ALUSrc),
+		.d2(0'b100),
+		.s(ALUSrcB),
 		.y(SrcB)
 	);
 	alu alu(
@@ -121,5 +149,18 @@ module datapath (
 		ALUControl,
 		ALUResult,
 		ALUFlags
+	);
+	flopr #(32) clkAluOut(
+		.clk(clk),
+		.reset(reset),
+		.d(ALUResult),
+		.q(ALUOut)
+	);
+	mux3 #(32) Resultmux3(
+		.d0(ALUOut),
+		.d1(Data),
+		.d2(ALUResult),
+		.s(ResultSrc),
+		.y(Result)
 	);
 endmodule
