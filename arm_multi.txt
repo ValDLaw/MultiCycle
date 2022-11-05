@@ -6,6 +6,7 @@ regfile.v
 extend.v
 flopenr.v
 condcheck.v
+fsm.v
 decode.v
 condlogic.v
 datapath.v

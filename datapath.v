@@ -73,7 +73,7 @@ module datapath (
 	mux2 #(32) pcmux(
 		.d0(PC),
 		.d1(Result),
-		.s(AdrSrc),
+		.s(AdrSrc), //
 		.y(Adr)
 	);
 	flopenr #(32) clkinstr(
