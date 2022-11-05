@@ -86,7 +86,5 @@ module decode (
 
 	// Instr Decoder
 	assign ImmSrc = Op;
-	assign RegSrc[1] == (Op == 01);
-	assign RegSrc[0] == (Op == 10);
-		//RegSrc = Funct[5]
+	assign RegSrc = Funct[5];
 endmodule
