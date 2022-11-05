@@ -63,11 +63,17 @@ module datapath (
 	// (Address Mux), etc. so that your code is easier to understand.
 
 	// ADD CODE HERE
-	mux2 #(32) pcmux(
-		.d0(PCPlus4),
-		.d1(Result),
-		.s(PCSrc),
-		.y(PCNext)
+	flopr #(32) pcreg(
+		.clk(clk),
+		.reset(reset),
+		.d(PCNext),
+		.q(PC)
+	);
+	flopr #(32) pcreg(
+		.clk(clk),
+		.reset(reset),
+		.d(PCNext),
+		.q(PC)
 	);
 	mux2 #(4) ra1mux(
 		.d0(Instr[19:16]),
