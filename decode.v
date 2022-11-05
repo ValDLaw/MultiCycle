@@ -64,10 +64,10 @@ module decode (
 	always @(*)
 	if (ALUOp) begin
 		case (Funct[4:1])
-			4'b0100: ALUControl = 2'b00;
-			4'b0100: ALUControl = 2'b00;
-			4'b0100: ALUControl = 2'b00;
-			4'b0100: ALUControl = 2'b00;
+			4'b0100: ALUControl = 2'b00; //add
+			4'b0010: ALUControl = 2'b01; //sub
+			4'b0000: ALUControl = 2'b10; //and
+			4'b1100: ALUControl = 2'b11; //or
 			default: ALUControl = 2'bxx;
 		endcase
 		FlagW[1] = Funct[0];
@@ -77,7 +77,6 @@ module decode (
 		ALUControl = 2'b00;
 		FlagW = 2'b00;
 	end
-
 	// PC Logic
 	assign PCS = ((Rd == 4'b1111) & RegW) | Branch;
 
@@ -87,6 +86,5 @@ module decode (
 
 	// Instr Decoder
 	assign ImmSrc = Op;
-	assign RegSrc[0] = Op == 2'b10;
-	assign RegSrc[1] = Op == 2'b01;
+	assign RegSrc = Funct[5];
 endmodule
