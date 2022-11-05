@@ -33,18 +33,27 @@ module condlogic (
 	wire CondEx;
 
 	// Delay writing flags until ALUWB state
-	flopr #(2) flagwritereg(
-		clk,
-		reset,
-		FlagW & {2 {CondEx}},
-		FlagWrite
-	);
 	// ADD CODE HERE
+	flopenr #(2) flagreg1(
+		.clk(clk),
+		.reset(reset),
+		.en(FlagWrite[1]),
+		.d(ALUFlags[3:2]),
+		.q(Flags[3:2])
+	);
+	flopenr #(2) flagreg0(
+		.clk(clk),
+		.reset(reset),
+		.en(FlagWrite[0]),
+		.d(ALUFlags[1:0]),
+		.q(Flags[1:0])
+	);
 	condcheck cc(
 		.Cond(Cond),
 		.Flags(Flags),
 		.CondEx(CondEx)
 	);
+	assign FlagWrite = FlagW & {2 {CondEx}};
 	assign RegWrite = RegW & CondEx;
 	assign MemWrite = MemW & CondEx;
 	assign PCWrite = (PCS & CondEx) | NextPC;
