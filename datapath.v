@@ -139,7 +139,7 @@ module datapath (
 	mux3 #(32) scrBmux3(
 		.d0(WriteData),
 		.d1(ExtImm),
-		.d2(0'b100),
+		.d2(3'b100),
 		.s(ALUSrcB),
 		.y(SrcB)
 	);
