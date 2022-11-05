@@ -73,14 +73,14 @@ module datapath (
 	mux2 #(32) pcmux(
 		.d0(PC),
 		.d1(Result),
-		.s(AdrSrc), //
+		.s(AdrSrc), //expects 2 bits got 1
 		.y(Adr)
 	);
 	flopenr #(32) clkinstr(
 		.clk(clk),
 		.reset(reset),
 		.en(IRWrite),
-		.d(Rd),
+		.d(Rd), //expects 32 bits got 1
 		.q(Instr)
 	);
 	flopr #(32) clkdata(
