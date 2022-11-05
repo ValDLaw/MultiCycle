@@ -33,7 +33,12 @@ module condlogic (
 	wire CondEx;
 
 	// Delay writing flags until ALUWB state
-	// ADD CODE HERE
+	flopr #(2) flagwritereg(
+		.clk(clk),
+		.reset(reset),
+		.d(FlagW & {2 {CondEx}}),
+		.q(FlagWrite)
+	);
 	flopenr #(2) flagreg1(
 		.clk(clk),
 		.reset(reset),
@@ -48,6 +53,7 @@ module condlogic (
 		.d(ALUFlags[1:0]),
 		.q(Flags[1:0])
 	);
+	// ADD CODE HERE
 	condcheck cc(
 		.Cond(Cond),
 		.Flags(Flags),
