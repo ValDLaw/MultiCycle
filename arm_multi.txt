@@ -1,0 +1,16 @@
+alu.v
+mux2.v
+mux3.v
+flopr.v
+regfile.v
+extend.v
+flopenr.v
+condcheck.v
+decode.v
+condlogic.v
+datapath.v
+controller.v
+arm.v
+mem.v
+top.v
+controller_tb.v

@@ -5,7 +5,13 @@ module controller_tb();
     wire [31:0] DataAdr;
     wire MemWrite;
 
-    top dut( .clk(clk), .reset(reset), .WriteData(WriteData), .Adr(DataAdr), .MemWrite(MemWrite) );
+    top dut(
+        .clk(clk),
+        .reset(reset),
+        .WriteData(WriteData),
+        .Adr(DataAdr),
+        .MemWrite(MemWrite)
+    );
     
     initial
         begin
@@ -34,7 +40,7 @@ module controller_tb();
 
         initial
             begin
-                $dumpfile("test"); // file name
+                $dumpfile("arm_multi.vcd"); // file name
                 $dumpvars;
             end
 
