@@ -79,7 +79,7 @@ module mainfsm (
                     nextstate = MEMWR;
                 default: nextstate = UNKNOWN;
 			MEMRD: nextstate = MEMWB;
-            MEMWB: nextstate = FECTH;
+            MEMWB: nextstate = FETCH;
             MEMWR: nextstate = FETCH;
             ALUWB: nextstate = FETCH;
             BRANCH: nextstate = FETCH;
