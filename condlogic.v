@@ -39,7 +39,14 @@ module condlogic (
 		FlagW & {2 {CondEx}},
 		FlagWrite
 	);
-
 	// ADD CODE HERE
+	condcheck cc(
+		.Cond(Cond),
+		.Flags(Flags),
+		.CondEx(CondEx)
+	);
+	assign RegWrite = RegW & CondEx;
+	assign MemWrite = MemW & CondEx;
+	assign PCWrite = (PCS & CondEx) | NextPC;
 
 endmodule
