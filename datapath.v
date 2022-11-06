@@ -80,7 +80,7 @@ module datapath (
 		.clk(clk),
 		.reset(reset),
 		.en(IRWrite),
-		.d(Rd), //expects 32 bits got 1
+		.d(ReadData),
 		.q(Instr)
 	);
 	flopr #(32) clkdata(
@@ -108,7 +108,7 @@ module datapath (
 		.ra2(RA2),
 		.wa3(Instr[15:12]),
 		.wd3(Result),
-		.r15(PCPlus8),
+		.r15(Result),
 		.rd1(SrcA),
 		.rd2(WriteData)
 	);
@@ -144,11 +144,11 @@ module datapath (
 		.y(SrcB)
 	);
 	alu alu(
-		SrcA,
-		SrcB,
-		ALUControl,
-		ALUResult,
-		ALUFlags
+		.a(SrcA),
+		.b(SrcB),
+		.ALUControl(ALUControl),
+		.Result(ALUResult),
+		.ALUFlags(ALUFlags)
 	);
 	flopr #(32) clkAluOut(
 		.clk(clk),
