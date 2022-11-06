@@ -1,6 +1,6 @@
 `timescale 1ps/1ps
 
-module testbench;
+module controller_tb;
     reg clk;
 	reg reset;
 	wire [31:12] Instr;

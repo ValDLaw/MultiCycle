@@ -1,4 +1,4 @@
-module controller_tb();
+module testbench();
     reg clk;
     reg reset;
     wire [31:0] WriteData;
