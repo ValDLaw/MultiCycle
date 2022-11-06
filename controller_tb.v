@@ -38,10 +38,10 @@ module controller_tb();
                     $finish;
                 end
 
-        initial
-            begin
-                $dumpfile("arm_multi.vcd"); // file name
-                $dumpvars;
-            end
+    initial
+        begin
+            $dumpfile("arm_multi.vcd"); // file name
+            $dumpvars;
+        end
 
 endmodule
