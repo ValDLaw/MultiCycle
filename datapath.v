@@ -91,7 +91,7 @@ module datapath (
 	);
 	mux2 #(4) ra1mux(
 		.d0(Instr[19:16]),
-		.d1(4'b1111), //15
+		.d1(15), //15
 		.s(RegSrc[0]),
 		.y(RA1)
 	);
@@ -139,7 +139,7 @@ module datapath (
 	mux3 #(32) scrBmux3(
 		.d0(WriteData),
 		.d1(ExtImm),
-		.d2(3'b100), //4
+		.d2(4), //4
 		.s(ALUSrcB),
 		.y(SrcB)
 	);
